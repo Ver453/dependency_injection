@@ -1,0 +1,227 @@
+﻿@model StudentManagement.ViewModel.StudentViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+}
+
+<h1>Create</h1>
+
+<h4>StudentModel</h4>
+<hr />
+<form enctype="multipart/form-data" asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-row">
+        <div class="form-group col-md-3 mb-3">
+            <label asp-for="FirstName" class="control-label"></label>
+            <input asp-for="FirstName" class="form-control"/>
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-3 mb-3">
+            <label asp-for="MidName" class="control-label"></label>
+            <input asp-for="MidName" class="form-control" />
+            <span asp-validation-for="MidName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-3 mb-3">
+            <label asp-for="LastName" class="control-label"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-3 mb-3">
+            <label asp-for="Address" class="control-label"></label>
+            <input asp-for="Address" class="form-control"/>
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-3 mb-3">
+            <label asp-for="JoinDate" class="control-label"></label>
+            <input asp-for="JoinDate" class="form-control" />
+            <span asp-validation-for="JoinDate" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-3 mb-3">
+            <label asp-for="Gender" class="control-label"></label>
+            <select asp-for="Gender" class="form-control">
+                <option>Choose your Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            <span asp-validation-for="Gender" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-3 mb-3">
+            <label asp-for="ProfileImage" class="control-label"></label>
+            <div class="custom-file">
+                <input asp-for="ProfileImage" class="custom-file-input" id="customFile" >
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            <span asp-validation-for="ProfileImage" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-3 mb-3">
+            <label asp-for="FacultyId" class="control-label"></label>
+            <select asp-for="FacultyId" class="form-control" asp-items="@(new SelectList(Model.FacultyList, nameof(FacultyModel.FacultyId), nameof(FacultyModel.FacultyName)))">
+                <option>Choose your Faculty</option>
+
+            </select>
+            <span asp-validation-for="FacultyId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-4 mb-3">
+            <label asp-for="CourseId" class="control-label"></label>
+            <select asp-for="CourseId" class="form-control" asp-items="@(new SelectList(Model.CourseList, nameof(Course.Id), nameof(Course.Name)))">
+                <option>Choose your Course</option>
+
+            </select>
+            <span asp-validation-for="CourseId" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+            </label>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h4 align="center">Student Academinc</h4>
+
+            <button type="button" name="add" id="addBtn" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i> &nbsp; Add More</button>
+            <div class="table-responsive">
+                <table id="" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Student Qualification
+                            </th>
+                            <th>
+                                Passed Year
+                            </th>
+                            <th>
+                                Marks
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tbody">
+                    </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Denotes total number of rows
+            var rowIdx = 0;
+            var counter = 0;
+            // jQuery button click event to add a row
+            $('#addBtn').on('click', function () {
+
+                // Check if the last row added has any blank input field
+                var lastRow = $('#tbody tr:last');
+                var lastRowInputs = lastRow.find('input');
+                var isLastRowBlank = true;
+                lastRowInputs.each(function () {
+                    if ($(this).val() == '') {
+                        isLastRowBlank = false;
+                        return false; // Break out of the loop early
+                    }
+                });
+                // If the last row is not blank, add a new row
+                if (!isLastRowBlank) {
+                    alert('Please fill out the previous row before adding a new one.');
+                    return;
+                }
+                // Adding a row inside the tbody.
+                $('#tbody').append(`<tr id="R${++rowIdx}">
+                         <td class="row-index text-center">
+                           <input class="form-control" id="AcademicList_${counter}__Qualification" name="AcademicList[${counter}].Qualification"/>
+                         </td>
+                            <td class="row-index text-center">
+                           <input type="number" class="form-control" id="AcademicList_${counter}__PassedYear" name="AcademicList[${counter}].PassedYear"/>
+                         </td>
+                            <td class="row-index text-center">
+                           <input type="number" class="form-control" id="AcademicList_${counter}__Marks" name="AcademicList[${counter}].Marks"/>
+                         </td>
+                          <td class="text-center">
+                            <button class="btn btn-danger remove"
+                              type="button">Remove</button>
+                            </td>
+                          </tr>`);
+                counter++
+
+                $('#AcademicList_${counter}__Qualification').rules('add', {
+                    required: true,
+                    minlength: 2,
+                    messages: {
+                        required: "Please enter your qualification",
+                        minlength: "Your qualification must be at least 2 characters long"
+                    }
+                });
+            });
+
+            // jQuery button click event to remove a row.
+            $('#tbody').on('click', '.remove', function () {
+                counter--;
+                // Getting all the rows next to the row
+                // containing the clicked button
+                var child = $(this).closest('tr').nextAll();
+
+                // Iterating across all the rows
+                // obtained to change the index
+                child.each(function () {
+                    // Getting <tr> id.
+                    var id = $(this).attr('id');
+        
+                    // Getting the <input> inside the row-index class and modifying its ID
+                    var inputs = $(this).find('.row-index input');
+           
+                    inputs.each(function (i, input) {
+                        var name = $(input).attr('name');
+                        var startIndex = name.indexOf('[');
+                        var endIndex = name.indexOf(']', startIndex);
+                        var index = parseInt(name.substring(startIndex + 1, endIndex));
+                        var newIndex = index-1; // Set the index to the current position in the loop
+                        var newName = name.substring(0, startIndex + 1) + newIndex + name.substring(endIndex);
+                        var newId = newName.replace('AcademicList[', 'AcademicList_').replace(']', '_').replace('.','_', '_'); // Set the new ID to be in the desired format
+                        $(input).attr('id', newId);
+                        $(input).attr('name', newName);
+                    });
+
+                    // Gets the row number from <tr> id.
+                    var dig = parseInt(id.substring(1));
+
+                    // Modifying row index.
+                    $(this).find('.row-index input').html(`Row ${dig - 1}`);
+
+                    // Modifying row id.
+                    $(this).attr('id', `R${dig - 1}`);
+                });
+
+                // Removing the current row.
+                $(this).closest('tr').remove();
+                // Decreasing total number of rows by 1.
+                rowIdx--;
+            });
+        });
+    </script>
+}
+

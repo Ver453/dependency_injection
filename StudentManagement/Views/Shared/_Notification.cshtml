@@ -1,0 +1,14 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@if (TempData["ResultOk"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/toaster.js"></script>
+    @*<h4 class="alert alert-success alert-dismissible">@TempData["ResultOk"]</h4>*@
+    <script type="text/javascript">
+        toastr.success('@TempData["ResultOk"]');
+    </script>
+
+    @*<strong>Success!</strong> Indicates a successful or positive action.*@
+}
