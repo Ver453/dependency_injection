@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using StudentManagement.Interface;
 using StudentManagement.Models;
+using StudentManagement.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,15 +14,18 @@ namespace StudentManagement.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IStudent _student;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IStudent student)
         {
             _logger = logger;
+            _student = student;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var data = _student.studentdata();
+            return View(data);
         }
 
         public IActionResult Privacy()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using StudentManagement.Business_Layer.Repository;
 using StudentManagement.Data;
 using StudentManagement.Interface;
@@ -40,11 +41,21 @@ namespace StudentManagement.Business_Layer
                 FacultyId = x.FacultyId,
                 CourseId = x.CourseId,
                 FacultyName = x.Faculties.FacultyName,
+                AcademicList = x.AcademicDetails.ToList(),
             }).FirstOrDefault();
             studentdata.CourseList = _baseRepository.GetAllData<Course>().ToList();
             studentdata.FacultyList = _baseRepository.GetAllData<FacultyModel>().ToList();
             studentdata.CourseName = studentdata.CourseList.Where(y => y.Id == studentdata.CourseId).Select(z => z.Name).FirstOrDefault();
             return studentdata;
+        }
+
+        public DashboardViewModel studentdata()
+        {
+            DashboardViewModel model = new DashboardViewModel();
+            model.StudentCount = _baseRepository.GetAllData<StudentModel>().Count();
+            model.FacultyCount = _baseRepository.GetAllData<FacultyModel>().Count();
+            model.CourseCount = _baseRepository.GetAllData<Course>().Count();
+            return model;
         }
 
         //Show a data in index page......
@@ -117,6 +128,7 @@ namespace StudentManagement.Business_Layer
             {
                 //string uniqueFileName = UploadedFile(student);
                 StudentModel Data = _baseRepository.GetAllData<StudentModel>().Where(x => x.StudentId == student.StudentId).FirstOrDefault();
+
                 Data.FirstName = student.FirstName;
                 Data.MidName = student.MidName;
                 Data.LastName = student.LastName;
@@ -126,7 +138,13 @@ namespace StudentManagement.Business_Layer
                 Data.IsActive = student.IsActive;
                 Data.FacultyId = student.FacultyId;
                 Data.CourseId = student.CourseId;
-                //Data.ProfilePicture = uniqueFileName;
+
+                Data.AcademicDetails = student.AcademicList.Select(y=>new StudentAcademic { 
+                    Id = y.Id,
+                    Qualification = y.Qualification,
+                    PassedYear = y.PassedYear,
+                    Marks = y.Marks,
+                }).ToList();
                 var result = _baseRepository.Update<StudentModel>(Data);
                 return 1;
             }

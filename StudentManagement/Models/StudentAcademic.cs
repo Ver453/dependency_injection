@@ -11,13 +11,12 @@ namespace StudentManagement.Models
     {
         [Key]
         public int Id { get; set; }
-
         [Required(ErrorMessage = "Qualification is required")]
         public string Qualification { get; set; }
         [Required(ErrorMessage = "Enter a valid year")]
         [RegularExpression(@"^(\d{4})$", ErrorMessage = "Enter a valid 4 digit Year")]
         public string PassedYear { get; set; }
-        [Required(ErrorMessage = "Enter a valid year")]
+        [Required(ErrorMessage = "Enter a valid marks")]
         [RegularExpression(@"^(\d{2})$", ErrorMessage = "Enter a valid 2 digit marks")]
         public int Marks { get; set; }
         public int StudentId { get; set; }

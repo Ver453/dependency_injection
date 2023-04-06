@@ -11,6 +11,7 @@ namespace StudentManagement.Interface
         StudentViewModel GetData(int Id);
         List<StudentViewModel> GetIndexData();
         StudentViewModel GetCreateData();
+        DashboardViewModel studentdata();
         int PostCreateData(StudentViewModel student);
         int PostEditData(StudentViewModel student);
         int PostDeleteData(StudentViewModel student);

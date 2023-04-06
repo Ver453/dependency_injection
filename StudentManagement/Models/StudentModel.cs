@@ -12,7 +12,6 @@ namespace StudentManagement.Models
         
         [Key]
         public int StudentId { get; set; }
-        [StringLength(60, MinimumLength = 3)]
         public string FirstName { get; set; }
         public string MidName { get; set; }
         public string LastName { get; set; }

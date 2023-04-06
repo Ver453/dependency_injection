@@ -41,7 +41,7 @@ namespace StudentManagement.Business_Layer.Repository
                 context.SaveChanges();
                 return model;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return null;

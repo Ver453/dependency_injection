@@ -15,16 +15,16 @@ namespace StudentManagement.ViewModel
         public int StudentId { get; set; }
         [Display(Name ="Full Name")]
         public string FullName { get; set; }
+        [Display(Name = "First Name")]
         [StringLength(60, MinimumLength = 3)]
-
-        [Required]
+        [Required (ErrorMessage ="First Name is Required")]
         public string FirstName { get; set; }
         public string MidName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         [DataType(DataType.Date)]
-        public DateTime JoinDate { get; set; }
+        public DateTime JoinDate { get; set; } = DateTime.Now;
         public string Gender { get; set; }
         public bool IsActive { get; set; }
         public string ProfilePicture { get; set; }

@@ -44,10 +44,6 @@ namespace StudentManagement.Controllers
             var getCreateData = _student.GetCreateData();
             return View(getCreateData);
         }
-        //public IActionResult Create()
-        //{
-        //    return View("Add");
-        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(StudentViewModel student)
@@ -61,10 +57,7 @@ namespace StudentManagement.Controllers
                     TempData["ResultOk"] = "Recored is Sucessfully Added!";
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    return Json(string.Join(";", ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage)));
-                }
+                    return View(student);
             }
             catch(Exception ex)
             {

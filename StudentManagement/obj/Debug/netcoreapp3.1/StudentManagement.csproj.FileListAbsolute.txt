@@ -147,4 +147,5 @@ C:\Users\sagar.adhikari\source\repos\StudentManagement\StudentManagement\obj\Deb
 C:\Users\sagar.adhikari\source\repos\StudentManagement\StudentManagement\obj\Debug\netcoreapp3.1\Razor\Views\Student\Delete.cshtml.g.cs
 C:\Users\sagar.adhikari\source\repos\StudentManagement\StudentManagement\obj\Debug\netcoreapp3.1\Razor\Views\Student\Details.cshtml.g.cs
 C:\Users\sagar.adhikari\source\repos\StudentManagement\StudentManagement\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Notification.cshtml.g.cs
+C:\Users\sagar.adhikari\source\repos\StudentManagement\StudentManagement\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_AdminLayout.cshtml.g.cs
 C:\Users\sagar.adhikari\source\repos\StudentManagement\StudentManagement\obj\Debug\netcoreapp3.1\StudentManagement.csproj.AssemblyReference.cache

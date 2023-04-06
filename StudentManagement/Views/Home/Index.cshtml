@@ -1,8 +1,122 @@
-﻿@{
+﻿@model StudentManagement.ViewModel.DashboardViewModel
+@{
     ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@*<div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>*@
+
+<!--**********************************
+            Content body start
+        ***********************************-->
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-6 p-md-0">
+                <div class="welcome-text">
+                    <h4>Hi, welcome back!</h4>
+                    <p class="mb-0">Your business dashboard template</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-sm-6">
+                <div class="card">
+                    <div class="stat-widget-one card-body">
+                        <div class="stat-icon d-inline-block">
+                            <i class="ti-money text-success border-success"></i>
+                        </div>
+                        <div class="stat-content d-inline-block">
+                            <div class="stat-text">Student</div>
+                            <div class="stat-digit">@Model.StudentCount</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="card">
+                    <div class="stat-widget-one card-body">
+                        <div class="stat-icon d-inline-block">
+                            <i class="ti-user text-primary border-primary"></i>
+                        </div>
+                        <div class="stat-content d-inline-block">
+                            <div class="stat-text">Courses</div>
+                            <div class="stat-digit">@Model.CourseCount</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="card">
+                    <div class="stat-widget-one card-body">
+                        <div class="stat-icon d-inline-block">
+                            <i class="ti-layout-grid2 text-pink border-pink"></i>
+                        </div>
+                        <div class="stat-content d-inline-block">
+                            <div class="stat-text">Faculty</div>
+                            <div class="stat-digit">@Model.FacultyCount</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-lg-3 col-sm-6">
+                <div class="card">
+                    <div class="stat-widget-one card-body">
+                        <div class="stat-icon d-inline-block">
+                            <i class="ti-link text-danger border-danger"></i>
+                        </div>
+                        <div class="stat-content d-inline-block">
+                            <div class="stat-text">Referral</div>
+                            <div class="stat-digit">2,174</div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title"></h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="ct-bar-chart mt-5"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="year-calendar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--<div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="ct-pie-chart"></div>
+                    </div>
+                </div>-->
+        <!-- /# card -->
+        <!--</div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">All Expense</h4>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
 </div>
+<!--**********************************
+    Content body end
+***********************************-->
