@@ -40,6 +40,8 @@ namespace StudentManagement.Business_Layer
                 IsActive = x.IsActive,
                 FacultyId = x.FacultyId,
                 CourseId = x.CourseId,
+                ProfilePicture = x.ProfilePicture,
+                ProfilePictureFilePath = "/Images/" + x.ProfilePicture,
                 FacultyName = x.Faculties.FacultyName,
                 AcademicList = x.AcademicDetails.ToList(),
             }).FirstOrDefault();
@@ -85,11 +87,18 @@ namespace StudentManagement.Business_Layer
             return studentModel;
         }
 
-        public int PostCreateData(StudentViewModel student)
+        public StudentModel PostCreateData(StudentViewModel student)
         {
              try
             {
-                string uniqueFileName = UploadedFile(student);
+                string uniqueFileName = "";
+                if (student.ProfileImage == null)
+                {
+                    uniqueFileName = "dummy.png";
+                }
+                else {
+                    uniqueFileName = UploadedFile(student);
+                }
                 var model = new StudentModel
                 {
                     FirstName = student.FirstName,
@@ -110,8 +119,8 @@ namespace StudentManagement.Business_Layer
                     }).ToList()
                 };
                 var result = _baseRepository.Create<StudentModel>(model);
-                
-                return 1;
+
+                return result;
             }
 
             catch (Exception ex)
@@ -126,6 +135,15 @@ namespace StudentManagement.Business_Layer
         {
             try
             {
+                string uniqueFileName = "";
+                if (student.ProfileImage == null)
+                {
+                    uniqueFileName = student.ProfilePicture;
+                }
+                else
+                {
+                    uniqueFileName = UploadedFile(student);
+                }
                 //string uniqueFileName = UploadedFile(student);
                 StudentModel Data = _baseRepository.GetAllData<StudentModel>().Where(x => x.StudentId == student.StudentId).FirstOrDefault();
 
@@ -138,6 +156,7 @@ namespace StudentManagement.Business_Layer
                 Data.IsActive = student.IsActive;
                 Data.FacultyId = student.FacultyId;
                 Data.CourseId = student.CourseId;
+                Data.ProfilePicture = uniqueFileName;
 
                 Data.AcademicDetails = student.AcademicList.Select(y=>new StudentAcademic { 
                     Id = y.Id,
@@ -172,7 +191,7 @@ namespace StudentManagement.Business_Layer
                 throw;
             }
         }
-
+        //Upload a image 
         private string UploadedFile(StudentViewModel student)
         {
             string uniqueFileName = null;
@@ -187,6 +206,15 @@ namespace StudentManagement.Business_Layer
                 }
             }
             return uniqueFileName;
+        }
+        //Featch course list by faculty 
+        public List<CourseViewModel> GetCourseListByFacultyId(int Id)
+        {
+            var result = _baseRepository.GetAllData<Course>().Where(x => x.FacultyId == Id).Select(y=>new CourseViewModel { 
+            Id = y.Id,
+            Name = y.Name
+            }).ToList();
+            return result;
         }
     }
 }

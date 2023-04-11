@@ -12,5 +12,9 @@ namespace StudentManagement.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        [Display(Name = "Faculty")]
+        public int FacultyId { get; set; }
+        [ForeignKey("FacultyId")]
+        public virtual FacultyModel Faculties { get; set; }
     }
 }

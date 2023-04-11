@@ -7,9 +7,12 @@
   <ItemGroup>
     <Compile Remove="Migrations\20230317072423_course change.cs" />
     <Compile Remove="Migrations\20230317072423_course change.Designer.cs" />
+    <Compile Remove="Migrations\20230406045328_alter_in_course.cs" />
+    <Compile Remove="Migrations\20230406045328_alter_in_course.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.1">
       <PrivateAssets>all</PrivateAssets>
@@ -25,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Images\" />
+    <Folder Include="wwwroot\Dummy\" />
   </ItemGroup>
 
 </Project>

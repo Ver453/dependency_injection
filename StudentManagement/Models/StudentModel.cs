@@ -12,16 +12,18 @@ namespace StudentManagement.Models
         
         [Key]
         public int StudentId { get; set; }
+        [Required(ErrorMessage ="First Name is Required")]
         public string FirstName { get; set; }
         public string MidName { get; set; }
+        [Required(ErrorMessage = "Last Name is Required")]
         public string LastName { get; set; }
+        [Required(ErrorMessage = "Address is Required")]
         public string Address { get; set; }
         [DataType(DataType.Date)]
         public DateTime JoinDate { get; set; } = DateTime.Now;
+        [Range(1, int.MaxValue, ErrorMessage = "Gender is Required")]
         public string Gender { get; set; }
         public bool IsActive { get; set; }
-
-        //[Required(ErrorMessage = "Please choose profile image")]
         public string ProfilePicture { get; set; }
 
         [Display(Name ="Faculty")]

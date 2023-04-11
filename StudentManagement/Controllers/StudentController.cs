@@ -24,7 +24,7 @@ namespace StudentManagement.Controllers
         {
             if(SearchString != null)
             {
-                ViewData["cardata"] = SearchString;
+                ViewData["studentdata"] = SearchString;
                 var student = from c in _student.GetIndexData()
                               select c;
                 if (!String.IsNullOrEmpty(SearchString))
@@ -53,16 +53,44 @@ namespace StudentManagement.Controllers
                 if (ModelState.IsValid)
                 {
                     //ViewBag.Message = "Data created!";
-                    var postCreateData = _student.PostCreateData(student);
-                    TempData["ResultOk"] = "Recored is Sucessfully Added!";
-                    return RedirectToAction("Index");
+                    if (student.AcademicList == null)
+                    {
+                        var getCreateData = _student.GetCreateData();
+
+                        student.FacultyList = getCreateData.FacultyList;
+                        student.CourseList = getCreateData.CourseList;
+                        TempData["ResultError"] = "Error occured!";
+                        return View(student);
+                    }
+
+                    var result = _student.PostCreateData(student);
+                    if (result != null)
+                    {
+                        TempData["ResultOk"] = "Recored is sucessfully Added!";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["ResultError"] = "Error occured!";
+                    }
+                    if (student.ProfileImage.Length > 2000000)
+                    {
+                        ModelState.AddModelError("ProfileImage", "Image must be less than 2 Mb");
+                    }
                 }
+                else{
+                    var getCreateData = _student.GetCreateData();
+
+                    student.FacultyList = getCreateData.FacultyList;
+                    student.CourseList = getCreateData.CourseList;
+                    TempData["ResultError"] = "Error occured!";
                     return View(student);
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw ex;
-            } 
+            }
+            return View(student);
         }
         [HttpGet]
         public IActionResult Edit(int Id)
@@ -74,9 +102,24 @@ namespace StudentManagement.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(StudentViewModel student)
         {
-            var postEditData = _student.PostEditData(student);
-            TempData["ResultOk"] = "Recored is sucessfully Edited!";
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                if (student.ProfileImage.Length > 1024)
+                {
+                    ModelState.AddModelError("", "Image must be less than 1 Mb");
+                }
+                var postEditData = _student.PostEditData(student);
+                if (postEditData != null)
+                {
+                    TempData["ResultOk"] = "Recored is sucessfully Edited!";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("Edit");
+                }
+            }
+            return View(student);
         }
 
         [HttpGet]
@@ -101,6 +144,12 @@ namespace StudentManagement.Controllers
             var getDetailsData = _student.GetData(Id);
             return View(getDetailsData);
         }
-       
+        [HttpGet]
+        public List<CourseViewModel> GetDataByFaculty(int Id)
+        {
+            var getCourseByFaculty = _student.GetCourseListByFacultyId(Id);
+            return getCourseByFaculty;
+        }
+
     }
 }

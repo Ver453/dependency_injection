@@ -22,10 +22,11 @@ namespace StudentManagement.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var getCreateData = _course.GetCreateData();
+            return View(getCreateData);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

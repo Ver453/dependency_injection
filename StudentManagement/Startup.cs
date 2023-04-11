@@ -34,7 +34,7 @@ namespace StudentManagement
             services.AddTransient<IFaculty, FacultyBL>();
             services.AddTransient<ICourse, CourseBL>();
             services.AddTransient<IBaseRepository, BaseRepository>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

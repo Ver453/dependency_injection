@@ -81,7 +81,7 @@
                                 </span>
                                 <div class="dropdown-menu p-0 m-0">
                                     <form>
-                                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                        <input class="form-control" type="search" name="SearchString" placeholder="Search" value="@ViewData["studentdata"]" aria-label="Search">
                                     </form>
                                 </div>
                             </div>
@@ -139,6 +139,16 @@
                             <i class="bi bi-mortarboard-fill"></i><span class="nav-text">Student</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="has-arrow" asp-area="" asp-controller="Faculty" asp-action="Create" aria-expanded="false">
+                            <i class="bi bi-mortarboard-fill"></i><span class="nav-text">Faculty</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="has-arrow" asp-area="" asp-controller="Course" asp-action="Create" aria-expanded="false">
+                            <i class="bi bi-mortarboard-fill"></i><span class="nav-text">Course</span>
+                        </a>
+                    </li>
 
                     <li class="nav-label">Apps</li>
                     <li>
@@ -157,44 +167,46 @@
 
 
     </header>
-        <div class="container-fluid">
-            <partial name="_Notification" />
-            @RenderBody()
+    <div class="container-fluid">
+        @*<partial name="_Notification" />*@
+        @RenderBody()
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - StudentManagement - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2023 - StudentManagement - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        @*validation*@
-        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    @*validation*@
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
 
-        <!--**********************************
-            Scripts
-        ***********************************-->
-        <!-- Required vendors -->
-        <script src="~/vendor/global/global.min.js"></script>
-        <script src="~/js/quixnav-init.js"></script>
-        <script src="~/js/custom.min.js"></script>
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="~/vendor/global/global.min.js"></script>
+    <script src="~/js/quixnav-init.js"></script>
+    <script src="~/js/custom.min.js"></script>
 
-        <script src="~/vendor/chartist/js/chartist.min.js"></script>
+    <script src="~/vendor/chartist/js/chartist.min.js"></script>
 
-        <script src="~/vendor/moment/moment.min.js"></script>
-        <script src="~/vendor/pg-calendar/js/pignose.calendar.min.js"></script>
+    <script src="~/vendor/moment/moment.min.js"></script>
+    <script src="~/vendor/pg-calendar/js/pignose.calendar.min.js"></script>
 
 
-        <script src="~/js/dashboard/dashboard-2.js"></script>
-        @RenderSection("Scripts", required: false)
+    <script src="~/js/dashboard/dashboard-2.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

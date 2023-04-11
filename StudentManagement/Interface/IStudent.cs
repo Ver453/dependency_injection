@@ -1,4 +1,5 @@
-﻿using StudentManagement.ViewModel;
+﻿using StudentManagement.Models;
+using StudentManagement.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace StudentManagement.Interface
         List<StudentViewModel> GetIndexData();
         StudentViewModel GetCreateData();
         DashboardViewModel studentdata();
-        int PostCreateData(StudentViewModel student);
+        List<CourseViewModel> GetCourseListByFacultyId(int Id);
+        StudentModel PostCreateData(StudentViewModel student);
         int PostEditData(StudentViewModel student);
         int PostDeleteData(StudentViewModel student);
     }

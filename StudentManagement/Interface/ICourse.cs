@@ -9,5 +9,6 @@ namespace StudentManagement.Interface
     public interface ICourse
     {
         int PostCreateData(CourseViewModel course);
+        CourseViewModel GetCreateData();
     }
 }

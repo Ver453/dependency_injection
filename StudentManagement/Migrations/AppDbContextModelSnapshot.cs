@@ -26,10 +26,15 @@ namespace StudentManagement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("FacultyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FacultyId");
 
                     b.ToTable("Courses");
                 });
@@ -60,9 +65,11 @@ namespace StudentManagement.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PassedYear")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Qualification")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StudentId")
@@ -110,7 +117,6 @@ namespace StudentManagement.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfilePicture")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StudentId");
@@ -118,6 +124,15 @@ namespace StudentManagement.Migrations
                     b.HasIndex("FacultyId");
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("StudentManagement.Models.Course", b =>
+                {
+                    b.HasOne("StudentManagement.Models.FacultyModel", "Faculties")
+                        .WithMany()
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("StudentManagement.Models.StudentAcademic", b =>

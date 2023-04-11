@@ -20,18 +20,24 @@ namespace StudentManagement.ViewModel
         [Required (ErrorMessage ="First Name is Required")]
         public string FirstName { get; set; }
         public string MidName { get; set; }
+        [Required(ErrorMessage = "Last Name is Required")]
         public string LastName { get; set; }
+        [Required(ErrorMessage = "Address is Required")]
         public string Address { get; set; }
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Join date  is required")]
         public DateTime JoinDate { get; set; } = DateTime.Now;
+        [Required(ErrorMessage = "Gender is required")]
         public string Gender { get; set; }
         public bool IsActive { get; set; }
         public string ProfilePicture { get; set; }
+        public string ProfilePictureFilePath { get; set; }
 
         //[Required(ErrorMessage = "Please choose profile image")]
+        //[RegularExpression(@"(.*\.)(jpg|JPG|gif|GIF|png|PNG)$", ErrorMessage = "Only Image files are allowed!!(.jpg, png, jpeg, gif)")]
         [Display(Name = "Profile Picture")]
-        public IFormFile ProfileImage { get; set; }
+        public IFormFile ProfileImage { get; set; } 
 
         [Display(Name = "Course")]
         public int CourseId { get; set; }
@@ -39,7 +45,6 @@ namespace StudentManagement.ViewModel
         public string FacultyName { get; set; }
         public List<FacultyModel> FacultyList { get; set; }
         public List<StudentAcademic> AcademicList { get; set; }
-
         [Display(Name = "Faculty")]
         public int FacultyId { get; set; }
 

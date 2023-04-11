@@ -19,13 +19,21 @@ namespace StudentManagement.Business_Layer
             _baseRepository = baseRepository;
         }
 
+        public CourseViewModel GetCreateData()
+        {
+            CourseViewModel courseModel = new CourseViewModel();
+            courseModel.FacultyList = _baseRepository.GetAllData<FacultyModel>().ToList();
+            return courseModel;
+        }
+
         public int PostCreateData(CourseViewModel course)
         {
             try
             {
                 var model = new Course
                 {
-                    Name = course.Name
+                    Name = course.Name,
+                    FacultyId = course.FacultyId
                 };
                 var result = _baseRepository.Create<Course>(model);
 
@@ -38,5 +46,7 @@ namespace StudentManagement.Business_Layer
                 throw;
             }
         }
+
+
     }
 }
