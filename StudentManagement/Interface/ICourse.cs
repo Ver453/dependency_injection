@@ -1,4 +1,5 @@
-﻿using StudentManagement.ViewModel;
+﻿using StudentManagement.Models;
+using StudentManagement.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,9 @@ namespace StudentManagement.Interface
 {
     public interface ICourse
     {
-        int PostCreateData(CourseViewModel course);
-        CourseViewModel GetCreateData();
+        //int  PostCreateData(CourseViewModel course);
+        Task<Course> PostCreateData(CourseViewModel course);
+        Task<CourseViewModel> GetCreateData();
+        Task<List<CourseViewModel>> GetAllCourses();
     }
 }

@@ -3,15 +3,33 @@
 @{
     ViewData["Title"] = "Create";
 }
+@if (TempData["ResultOk"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    @*<script src="~/AdminLTE-3.2.0/plugins/toastr/toastr.min.js"></script>*@
+    <script src="~/js/toaster.js"></script>
+    @*<h4 class="alert alert-success alert-dismissible">@TempData["ResultOk"]</h4>*@
+    <script type="text/javascript">
+        toastr.success('@TempData["ResultOk"]');
+    </script>
 
+    @*<strong>Success!</strong> Indicates a successful or positive action.*@
+}
 
-<div class="content-body">
+<div class="content-wrapper">
     <div class="container-fluid">
         <h4>FacultyModel</h4>
         <hr />
         <div class="row">
             <div class="col-md-4">
-                <form asp-action="Create">
+                <div class="form-group">
+                    @*<a class="btn btn-danger" asp-action="Index">Back to List</a>*@
+                    <a id="btn-backToList" class="btn btn-danger" href="/Faculty/Create" data-ajax="true"
+                       data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#sagar-div" hidden>
+                        <span class="nav-text">Back To List</span>
+                    </a>
+                </div>
+                <form asp-action="Create" id="createFacultyForm" method="POST" ajax-request="true" callback="callback(data)" data-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="FacultyName" class="control-label"></label>
@@ -19,18 +37,53 @@
                         <span asp-validation-for="FacultyName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <button id="createFacultyBtn" type="button" value="Create" class="btn btn-primary">Create</button>
                     </div>
                 </form>
             </div>
         </div>
-
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
     </div>
 </div>
 
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#createFacultyBtn").click(function () {
+            PostFormWithFile();
+        })
+    });
+     function callback(data) {
+        debugger;
+        if (data.resultType == 0) {
+            $("#btn-backToList")[0].click();
+        }
+        else {
+            swal({
+                text: data.message,
+                closeOnClickOutside: false
+            });
+            /*alert(data.message);*/
+        }
+    }
+    function PostFormWithFile() {
+        debugger;
+        var registrationForm = document.getElementById("createFacultyForm");
+        var formData = new FormData(registrationForm);
+
+        $.ajax({
+            url: '@Url.Action("Create")',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                debugger;
+                callback(response);
+            }
+        });
+
+    }
+</script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

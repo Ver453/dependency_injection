@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Data;
+using StudentManagement.Infrastructure;
+using StudentManagement.Infrastructure.Enums;
 using StudentManagement.Interface;
 using StudentManagement.Models;
 using StudentManagement.ViewModel;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace StudentManagement.Controllers
 {
-    public class FacultyController : Controller
+    public class FacultyController : BaseController
     {
         private readonly IFaculty _faculty;
 
@@ -29,14 +31,15 @@ namespace StudentManagement.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(FacultyViewModel faculty)
+        public async Task<IActionResult> Create(FacultyViewModel faculty)
         {
             if (ModelState.IsValid)
             {
-                var postCreateData = _faculty.PostCreateData(faculty);
-                return RedirectToAction("Create");
+                var postCreateData = await _faculty.PostCreateData(faculty);
+                 TempData["ResultOk"] = "Faculty sucessfully Created!";
+                return Json(new DataResult { ResultType = ResultType.Success, Message = "Success" });
             }
-            return View();
+            return Json(new DataResult { ResultType = ResultType.Failed, Message = "Failed" });
         }
     }
 }

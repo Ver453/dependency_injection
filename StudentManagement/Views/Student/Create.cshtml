@@ -2,25 +2,19 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
     var counter = 0;
 
 }
-@if (TempData["ResultError"] != null)
-{
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/js/toaster.js"></script>
-    @*<h4 class="alert alert-success alert-dismissible">@TempData["ResultOk"]</h4>*@
-    <script type="text/javascript">
-        toastr.error('@TempData["ResultError"]');
-    </script>
-
-    @*<strong>Success!</strong> Indicates a successful or positive action.*@
-}
-<div class="content-body">
+<div class="content-wrapper">
     <div class="container-fluid">
-        <form enctype="multipart/form-data" asp-action="Create" id="uploadForm">
+        <div class="form-group">
+            @*<a class="btn btn-danger" asp-action="Index">Back to List</a>*@
+            <a id="btn-backToList" class="btn btn-danger" href="/Student/Index" data-ajax="true"
+               data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#sagar-div" hidden>
+                <span class="nav-text">Back To List</span>
+            </a>
+        </div>
+        <form id="createStudentForm" method="POST" asp-action="Create" ajax-request="true" enctype="multipart/form-data" callback="callback(data)" data-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-row">
                 <div class="form-group col-md-3 mb-3">
@@ -51,10 +45,10 @@
                 <div class="form-group col-md-3 mb-3">
                     <label asp-for="Gender" class="control-label"></label>
                     <select asp-for="Gender" class="form-control">
-                        <option  value="">Choose your Gender</option>
-                        <option value="1">Male</option>
-                        <option value="2">Female</option>
-                        <option value="3">Other</option>
+                        <option value="">Choose your Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
                     </select>
                     <span asp-validation-for="Gender" class="text-danger"></span>
                 </div>
@@ -87,7 +81,7 @@
                 </div>
                 <div class="form-group col-md-4 mb-3">
                     <label asp-for="CourseId" class="control-label"></label>
-                    <select asp-for="CourseId" class="form-control" asp-items="@(new SelectList(Model.CourseList, nameof(Course.Id), nameof(Course.Name)))">
+                    <select asp-for="CourseId" class="form-control js-example-basic-single" asp-items="@(new SelectList(Model.CourseList, nameof(Course.Id), nameof(Course.Name)))">
                         <option>Choose your Course</option>
 
                     </select>
@@ -103,7 +97,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h4 align="center">Student Academinc</h4>
+                    <h4 align="center">Student Academic</h4>
 
                     <button type="button" name="add" id="addBtn" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i> &nbsp; Add More</button>
                     <div class="table-responsive">
@@ -162,195 +156,219 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input id="createbtn" name="submit" type="submit" value="Create" class="btn btn-success" />
+                    <button id="createbtn" type="button" value="Create" class="btn btn-success">
+                        <span>Create</span>
+                    </button>
                 </div>
                 <div class="form-group">
-                    <a class="btn btn-danger" asp-action="Index">Back to List</a>
+                    <a id="bckToLst" class="btn btn-danger" href="/Student/Index" data-ajax="true"
+                       data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#sagar-div">
+                        <span class="nav-text">Back To List</span>
+                    </a>
                 </div>
             </div>
             <br />
+
         </form>
     </div>
 </div>
 
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        // Add the following code if you want the name of the file appear on select
-        $(".custom-file-input").on("change", function () {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+<script type="text/javascript">
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+    $(document).ready(function () {
+        //preview image
+        $(".preview").change(function () {
+            $("#imgPreview").show();
+            const file = this.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function (event) {
+                    $("#imgPreview")
+                        .attr("src", event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
         });
 
-        $(document).ready(function () {
-
-            //preview image
-            $(".preview").change(function () {
-                $("#imgPreview").show();
-                const file = this.files[0];
-                if (file) {
-                    let reader = new FileReader();
-                    reader.onload = function (event) {
-                        $("#imgPreview")
-                            .attr("src", event.target.result);
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            //image validation
-            /*$('#createbtn').prop("disabled", true);*/
-            var a = 0;
-            //binds to onchange event of your input field
-            $('#customFile').bind('change', function () {
-                if ($('input:submit').attr('disabled', false)) {
-                    $('input:submit').attr('disabled', true);
-                }
-                var ext = $('#customFile').val().split('.').pop().toLowerCase();
-                if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
-                    $('#error1').slideDown("slow");
-                    $('#error2').slideUp("slow");
+        //image validation
+        /*$('#createbtn').prop("disabled", true);*/
+        var a = 0;
+        //binds to onchange event of your input field
+        $('#customFile').bind('change', function () {
+            if ($('input:submit').attr('disabled', false)) {
+                $('input:submit').attr('disabled', true);
+            }
+            var ext = $('#customFile').val().split('.').pop().toLowerCase();
+            if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                $('#error1').slideDown("slow");
+                $('#error2').slideUp("slow");
+                a = 0;
+            } else {
+                var picsize = (this.files[0].size);
+                if (picsize > 2000000) {
+                    $('#error2').slideDown("slow");
                     a = 0;
                 } else {
-                    var picsize = (this.files[0].size);
-                    if (picsize > 2000000) {
-                        $('#error2').slideDown("slow");
-                        a = 0;
-                    } else {
-                        a = 1;
-                        $('#error2').slideUp("slow");
-                    }
-                    $('#error1').slideUp("slow");
-                    if (a == 1) {
-                        $('input:submit').attr('disabled', false);
-                    }
+                    a = 1;
+                    $('#error2').slideUp("slow");
                 }
-            });
-
-            $("#FacultyId").change(function () {
-                var facultyId = $("#FacultyId").val();
-                $.ajax({
-                    type: "Get",
-                    url: "/Student/GetDataByFaculty",
-                    data: { Id: facultyId },
-                    dataType: "json",
-                    success: function (data) {
-
-                        $.each(data, function (k, option) {
-                            data += "<option value = '" + option.id + "'>" + option.name + " </option>";
-                        });
-                        $('#CourseId').html(data);
-                    }
-
-                })
-            });
-
-            //Adding a row in add button
-            // Denotes total number of rows
-            var rowIdx = 0;
-            var counter = 0;
-            // jQuery button click event to add a row
-            $('#addBtn').on('click', function () {
-
-
-                // Check if the last row added has any blank input field
-                var lastRow = $('#tbody tr:last');
-                var lastRowInputs = lastRow.find('input');
-                var isLastRowBlank = false;
-                lastRowInputs.each(function () {
-                    if ($(this).val() == '') {
-                        isLastRowBlank = true;
-                        return true; // Break out of the loop early
-                    }
-                });
-
-
-                //$('#createbtn').on('click', function () {
-                //
-                //    // Check if the Qualification input field is empty
-                //    var qualificationInput = lastRow.find('input[name^="AcademicList["][name$=".Qualification"]');
-                //    var qualificationErrorSpan = qualificationInput.next('.error');
-                //    if (qualificationInput.val() == '') {
-                //        if (qualificationErrorSpan.length == 0) {
-                //            // Add an error span element next to the input field
-                //            qualificationInput.after('<span class="error">Please fill out this field.</span>');
-                //            qualificationErrorSpan = qualificationInput.next('.error');
-                //        }
-                //        qualificationErrorSpan.show(); // Show the error message
-                //        return;
-                //    } else {
-                //        qualificationErrorSpan.hide(); // Hide the error message if it was previously shown
-                //    }
-                //});
-                // If the last row is not blank, add a new row
-                if (isLastRowBlank) {
-                    alert('Please fill out the previous row before adding a new one.');
-                    return;
+                $('#error1').slideUp("slow");
+                if (a == 1) {
+                    $('input:submit').attr('disabled', false);
                 }
-                // Adding a row inside the tbody.
-                $('#tbody').append(`<tr id="R${++rowIdx}">
-                                <td class="row-index text-center">
-                                    <input  class="form-control" id="AcademicList_${counter}__Qualification" name="AcademicList[${counter}].Qualification"/>
-                                </td>
-                                <td class="row-index text-center">
-                                    <input type="number" class="form-control" id="AcademicList_${counter}__PassedYear" name="AcademicList[${counter}].PassedYear"/>
-                                </td>
-                                <td class="row-index text-center">
-                                    <input type="number" class="form-control" id="AcademicList_${counter}__Marks" name="AcademicList[${counter}].Marks"/>
-                                </td>
-                                <td class="text-center">
-                                    <button class="btn btn-danger remove"
-                                        type="button">Remove</button>
-                                </td>
-                            </tr>`);
-                counter++
-            });
-
-            // jQuery button click event to remove a row.
-            $('#tbody').on('click', '.remove', function () {
-                counter--;
-                // Getting all the rows next to the row
-                // containing the clicked button
-                var child = $(this).closest('tr').nextAll();
-
-                // Iterating across all the rows
-                // obtained to change the index
-                child.each(function () {
-                    // Getting <tr> id.
-                    var id = $(this).attr('id');
-
-                    // Getting the <input> inside the row-index class and modifying its ID
-                    var inputs = $(this).find('.row-index input');
-
-                    inputs.each(function (i, input) {
-                        var name = $(input).attr('name');
-                        var startIndex = name.indexOf('[');
-                        var endIndex = name.indexOf(']', startIndex);
-                        var index = parseInt(name.substring(startIndex + 1, endIndex));
-                        var newIndex = index - 1; // Set the index to the current position in the loop
-                        var newName = name.substring(0, startIndex + 1) + newIndex + name.substring(endIndex);
-                        var newId = newName.replace('AcademicList[', 'AcademicList_').replace(']', '_').replace('.', '_', '_'); // Set the new ID to be in the desired format
-                        $(input).attr('id', newId);
-                        $(input).attr('name', newName);
-                    });
-
-                    // Gets the row number from <tr> id.
-                    var dig = parseInt(id.substring(1));
-
-                    // Modifying row index.
-                    $(this).find('.row-index input').html(`Row ${dig - 1}`);
-
-                    // Modifying row id.
-                    $(this).attr('id', `R${dig - 1}`);
-                });
-
-                // Removing the current row.
-                $(this).closest('tr').remove();
-                // Decreasing total number of rows by 1.
-                rowIdx--;
-            });
+            }
         });
-    </script>
+
+        //ajax call to fetch data on change
+        $("#FacultyId").change(function () {
+            var facultyId = $("#FacultyId").val();
+            $.ajax({
+                type: "Get",
+                url: "/Student/GetDataByFaculty",
+                data: { Id: facultyId },
+                dataType: "json",
+                success: function (data) {
+
+                    $.each(data, function (k, option) {
+                        data += "<option value = '" + option.id + "'>" + option.name + " </option>";
+                    });
+                    $('#CourseId').html(data);
+                }
+
+            })
+        });
+
+        //Adding a row in add button
+        // Denotes total number of rows
+
+        // jQuery button click event to remove a row.
+        $('#tbody').on('click', '.remove', function () {
+            counter--;
+            // Getting all the rows next to the row
+            // containing the clicked button
+            var child = $(this).closest('tr').nextAll();
+
+            // Iterating across all the rows
+            // obtained to change the index
+            child.each(function () {
+                // Getting <tr> id.
+                var id = $(this).attr('id');
+
+                // Getting the <input> inside the row-index class and modifying its ID
+                var inputs = $(this).find('.row-index input');
+
+                inputs.each(function (i, input) {
+                    var name = $(input).attr('name');
+                    var startIndex = name.indexOf('[');
+                    var endIndex = name.indexOf(']', startIndex);
+                    var index = parseInt(name.substring(startIndex + 1, endIndex));
+                    var newIndex = index - 1; // Set the index to the current position in the loop
+                    var newName = name.substring(0, startIndex + 1) + newIndex + name.substring(endIndex);
+                    var newId = newName.replace('AcademicList[', 'AcademicList_').replace(']', '_').replace('.', '_', '_'); // Set the new ID to be in the desired format
+                    $(input).attr('id', newId);
+                    $(input).attr('name', newName);
+                });
+
+                // Gets the row number from <tr> id.
+                var dig = parseInt(id.substring(1));
+
+                // Modifying row index.
+                $(this).find('.row-index input').html(`Row ${dig - 1}`);
+
+                // Modifying row id.
+                $(this).attr('id', `R${dig - 1}`);
+            });
+
+            // Removing the current row.
+            $(this).closest('tr').remove();
+            // Decreasing total number of rows by 1.
+            rowIdx--;
+        });
+
+        ////select 2 js
+        //$('.js-example-basic-single').select2();
+
+        $("#createbtn").click(function () {
+            PostFormWithFile();
+        })
+    });
+
+    function callback(data) {
+        debugger;
+        if (data.resultType == 0) {
+            $("#btn-backToList")[0].click();
+        }
+        else {
+            swal({
+                text: data.message,
+                closeOnClickOutside: false
+            });
+            /*alert(data.message);*/
+        }
+    }
+    function PostFormWithFile() {
+        debugger;
+        var registrationForm = document.getElementById("createStudentForm");
+        var formData = new FormData(registrationForm);
+
+        $.ajax({
+            url: '@Url.Action("Create")',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                debugger;
+                callback(response);
+            }
+        });
+
+    }
+
+    var rowIdx = 0;
+    var counter = 0;
+    // jQuery button click event to add a row
+    $('#addBtn').on('click', function () {
+        // Check if the last row added has any blank input field
+        var lastRow = $('#tbody tr:last');
+        var lastRowInputs = lastRow.find('input');
+        var isLastRowBlank = false;
+        lastRowInputs.each(function () {
+            if ($(this).val() == '') {
+                isLastRowBlank = true;
+                return true; // Break out of the loop early
+            }
+        });
+
+        if (isLastRowBlank) {
+            alert('Please fill out the previous row before adding a new one.');
+            return;
+        }
+        // Adding a row inside the tbody.
+        $('#tbody').append(`<tr id="R${++rowIdx}">
+                                                <td class="row-index text-center">
+                                                    <input  class="form-control" id="AcademicList_${counter}__Qualification" name="AcademicList[${counter}].Qualification"/>
+                                                </td>
+                                                <td class="row-index text-center">
+                                                    <input type="number" class="form-control" id="AcademicList_${counter}__PassedYear" name="AcademicList[${counter}].PassedYear"/>
+                                                </td>
+                                                <td class="row-index text-center">
+                                                    <input type="number" class="form-control" id="AcademicList_${counter}__Marks" name="AcademicList[${counter}].Marks"/>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-danger remove"
+                                                        type="button">Remove</button>
+                                                </td>
+                                            </tr>`);
+        counter++
+    });
+
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 

@@ -1,4 +1,6 @@
-﻿using StudentManagement.Business_Layer.Repository;
+﻿
+using Microsoft.EntityFrameworkCore;
+using StudentManagement.Business_Layer.Repository;
 using StudentManagement.Interface;
 using StudentManagement.Models;
 using StudentManagement.ViewModel;
@@ -19,15 +21,16 @@ namespace StudentManagement.Business_Layer
             _baseRepository = baseRepository;
         }
 
-        public CourseViewModel GetCreateData()
+        public async Task<CourseViewModel> GetCreateData()
         {
             CourseViewModel courseModel = new CourseViewModel();
-            courseModel.FacultyList = _baseRepository.GetAllData<FacultyModel>().ToList();
+            courseModel.FacultyList = await _baseRepository.GetAllData<FacultyModel>().ToListAsync();
             return courseModel;
         }
 
-        public int PostCreateData(CourseViewModel course)
+        public async Task<Course> PostCreateData(CourseViewModel course)
         {
+
             try
             {
                 var model = new Course
@@ -35,9 +38,9 @@ namespace StudentManagement.Business_Layer
                     Name = course.Name,
                     FacultyId = course.FacultyId
                 };
-                var result = _baseRepository.Create<Course>(model);
+                var result = await _baseRepository.Add<Course>(model);
 
-                return 1;
+                return model;
             }
 
             catch (Exception ex)
@@ -47,6 +50,20 @@ namespace StudentManagement.Business_Layer
             }
         }
 
+        public async Task<List<CourseViewModel>> GetAllCourses()  
+        {
+            var course = from c in    _baseRepository.GetAllData<Course>()
+                         join f in   _baseRepository.GetAllData<FacultyModel>()
+                         on c.FacultyId equals f.FacultyId
+                         select new CourseViewModel
+            {
+                Id = c.Id,
+                Name = c.Name,
+                FacultyId = f.FacultyId,
+                FacultyName=f.FacultyName
 
+            };
+            return await course.ToListAsync();
+        }
     }
 }

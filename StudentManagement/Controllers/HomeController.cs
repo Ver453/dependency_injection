@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using StudentManagement.Infrastructure;
 using StudentManagement.Interface;
 using StudentManagement.Models;
 using StudentManagement.ViewModel;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace StudentManagement.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IStudent _student;

@@ -2,31 +2,29 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "_Layout";
+
 }
+@if (TempData["ResultOk"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    @*<script src="~/AdminLTE-3.2.0/plugins/toastr/toastr.min.js"></script>*@
+    <script src="~/js/toaster.js"></script>
+    @*<h4 class="alert alert-success alert-dismissible">@TempData["ResultOk"]</h4>*@
+    <script type="text/javascript">
+        toastr.success('@TempData["ResultOk"]');
+    </script>
 
-
-<h1>Index</h1>
-
-<div class="content-body">
-    <div class="container-fluid">
-        @if (TempData["ResultOk"] != null)
-        {
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/js/toaster.js"></script>
-            @*<h4 class="alert alert-success alert-dismissible">@TempData["ResultOk"]</h4>*@
-            <script type="text/javascript">
-                toastr.success('@TempData["ResultOk"]');
-            </script>
-
-            @*<strong>Success!</strong> Indicates a successful or positive action.*@
-        }
-        <p>
-            <a class="btn btn-primary" asp-action="Create">Create New</a>
-        </p>
-        <div id="grid_table" style="margin:auto;"></div>
-        <br />
-        <table id="my_table" class="table table-striped table-bordered table-sm " cellspacing="0" width="100%" border="1" style="margin:auto;">
+    @*<strong>Success!</strong> Indicates a successful or positive action.*@
+}
+<script src="~/AdminLTE-3.2.0/dist/js/demo.js"></script>
+@*<script src="~/AdminLTE-3.2.0/plugins/datatables/jquery.dataTables.min.js"></script>*@
+<div class="content-wrapper">
+    <p>
+        <a class="btn btn-primary" href="/Student/Create" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#sagar-div">Create New</a>
+    </p>
+    <br />
+    <div class="card-body">
+        <table id="example2" class=" table-striped table-bordered">
             <thead>
                 <tr>
                     <th>
@@ -71,9 +69,9 @@
                             @Html.DisplayFor(modelItem => item.IsActive)
                         </td>
                         <td>
-                            <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.StudentId">Edit</a> |
-                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.StudentId">Details</a> |
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.StudentId">Delete</a>
+                            <a id="btnEdit"  asp-action="Edit" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#sagar-div" asp-route-id="@item.StudentId"><i class="fas fa-edit"></i></a> |
+                            <a  asp-action="Details" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#sagar-div" asp-route-id="@item.StudentId"><i class="far fa-file-alt"></i></a> |
+                            <a  asp-action="Delete" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#sagar-div" asp-route-id="@item.StudentId"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 }
@@ -81,3 +79,19 @@
         </table>
     </div>
 </div>
+
+<script type="text/javascript">
+    //example 2
+    $(document).ready(function () {
+        var table2 = $('#example2').DataTable({
+            scrollY: 200,
+            scrollCollapse: true,
+            scroller: true,
+            paging: true,
+            responsive: true,
+            filter: true,
+        });
+    });
+</script>
+
+

@@ -37,7 +37,6 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "3.1.1",
           "Microsoft.EntityFrameworkCore.Tools": "3.1.1",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.5",
-          "ParamQueryGrid": "2.4.1",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "3.1.0.0",
@@ -315,12 +314,6 @@
         },
         "compile": {
           "StudentManagement.dll": {}
-        }
-      },
-      "jQuery/1.7.0": {},
-      "jQuery.UI.Combined/1.9.2": {
-        "dependencies": {
-          "jQuery": "1.7.0"
         }
       },
       "Microsoft.AspNetCore.Html.Abstractions/2.2.0": {
@@ -1157,12 +1150,6 @@
         },
         "compile": {
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
-        }
-      },
-      "ParamQueryGrid/2.4.1": {
-        "dependencies": {
-          "jQuery": "1.7.0",
-          "jQuery.UI.Combined": "1.9.2"
         }
       },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
@@ -3818,20 +3805,6 @@
       "serviceable": false,
       "sha512": ""
     },
-    "jQuery/1.7.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-UEZuBreHZNLao3z9zNPeSadyoPwKDP/5kFh+Mn1Pm9ZS0czk7bv0O6RreloGSIMAfTLZCiigNkuPb2bXKtUM+g==",
-      "path": "jquery/1.7.0",
-      "hashPath": "jquery.1.7.0.nupkg.sha512"
-    },
-    "jQuery.UI.Combined/1.9.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-AjhFhEoiRrAkIosA/cwDhD8pm3PZrzY9bubaWNfDA3BcWU4GINd71eNgMekO+M6Z61rKFNNulCtiw3BsKYYUiw==",
-      "path": "jquery.ui.combined/1.9.2",
-      "hashPath": "jquery.ui.combined.1.9.2.nupkg.sha512"
-    },
     "Microsoft.AspNetCore.Html.Abstractions/2.2.0": {
       "type": "package",
       "serviceable": true,
@@ -4188,13 +4161,6 @@
       "sha512": "sha512-qbXaB76XYUVLocLBs8Z9TS/ERGK2wm797feO+0JEPFvT7o7MRadOR77mqaSD4J1k8G+DlZQyq+MlkCuxrkr3ag==",
       "path": "nuget.frameworks/4.7.0",
       "hashPath": "nuget.frameworks.4.7.0.nupkg.sha512"
-    },
-    "ParamQueryGrid/2.4.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-yXv0rqiKOTF/XaZoX2OHQb12nVTi5ZELYdPz0+toiGXHID5k9QejFcTt+SmZ48AeoAcImwtL1dxlaUvfhpKOBA==",
-      "path": "paramquerygrid/2.4.1",
-      "hashPath": "paramquerygrid.2.4.1.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",

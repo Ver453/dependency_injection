@@ -26,9 +26,10 @@ namespace StudentManagement.Business_Layer
 
 
         //featch a data....
-        public StudentViewModel GetData(int Id)
+        public async Task<StudentViewModel> GetData(int Id)
         {
-            var studentdata = _baseRepository.GetAllData<StudentModel>().Where(x => x.StudentId == Id).Select(x => new StudentViewModel
+
+            StudentViewModel studentViewModel =await _baseRepository.GetAllData<StudentModel>().Where(x => x.StudentId == Id).Select(x => new StudentViewModel
             {
                 StudentId = x.StudentId,
                 FirstName = x.FirstName,
@@ -44,11 +45,11 @@ namespace StudentManagement.Business_Layer
                 ProfilePictureFilePath = "/Images/" + x.ProfilePicture,
                 FacultyName = x.Faculties.FacultyName,
                 AcademicList = x.AcademicDetails.ToList(),
-            }).FirstOrDefault();
-            studentdata.CourseList = _baseRepository.GetAllData<Course>().ToList();
-            studentdata.FacultyList = _baseRepository.GetAllData<FacultyModel>().ToList();
-            studentdata.CourseName = studentdata.CourseList.Where(y => y.Id == studentdata.CourseId).Select(z => z.Name).FirstOrDefault();
-            return studentdata;
+            }).FirstOrDefaultAsync();
+            studentViewModel.CourseList =await _baseRepository.GetAllData<Course>().ToListAsync();
+            studentViewModel.FacultyList = await _baseRepository.GetAllData<FacultyModel>().ToListAsync();
+            studentViewModel.CourseName = studentViewModel.CourseList.Where(y => y.Id == studentViewModel.CourseId).Select(z => z.Name).FirstOrDefault();
+            return studentViewModel;
         }
 
         public DashboardViewModel studentdata()
@@ -61,9 +62,9 @@ namespace StudentManagement.Business_Layer
         }
 
         //Show a data in index page......
-        public List<StudentViewModel> GetIndexData()
+        public async Task<List<StudentViewModel>> GetIndexData()
         {
-            var std = _baseRepository.GetAllData<StudentModel>().Select(x => new StudentViewModel
+            var std = await _baseRepository.GetAllData<StudentModel>().Select(x => new StudentViewModel
             {
                 StudentId = x.StudentId,
                 FullName = string.Concat(x.FirstName, " ", x.MidName, " ", x.LastName),
@@ -74,20 +75,20 @@ namespace StudentManagement.Business_Layer
                 FacultyId = x.FacultyId,
                 CourseId = x.CourseId,
                 ProfilePicture = x.ProfilePicture,
-            }).OrderByDescending(z => z.StudentId).ToList();
+            }).OrderByDescending(z => z.StudentId).ToListAsync();
             return std;
         }
 
         //Create a data..
-        public StudentViewModel GetCreateData()
+        public async Task<StudentViewModel> GetCreateData()
         {
             StudentViewModel studentModel = new StudentViewModel();
-            studentModel.CourseList = _baseRepository.GetAllData<Course>().ToList();
-            studentModel.FacultyList = _baseRepository.GetAllData<FacultyModel>().ToList();
+            studentModel.CourseList =  await _baseRepository.GetAllData<Course>().ToListAsync();
+            studentModel.FacultyList =  await _baseRepository.GetAllData<FacultyModel>().ToListAsync();
             return studentModel;
         }
 
-        public StudentModel PostCreateData(StudentViewModel student)
+        public async Task<StudentModel> PostCreateData(StudentViewModel student)
         {
              try
             {
@@ -118,8 +119,7 @@ namespace StudentManagement.Business_Layer
                         Marks = x.Marks,
                     }).ToList()
                 };
-                var result = _baseRepository.Create<StudentModel>(model);
-
+                var result = await _baseRepository.Create<StudentModel>(model);
                 return result;
             }
 
@@ -131,7 +131,7 @@ namespace StudentManagement.Business_Layer
         }
 
         //Edit a data....
-        public int PostEditData(StudentViewModel student)
+        public async Task<StudentModel> PostEditData(StudentViewModel student)
         {
             try
             {
@@ -145,7 +145,7 @@ namespace StudentManagement.Business_Layer
                     uniqueFileName = UploadedFile(student);
                 }
                 //string uniqueFileName = UploadedFile(student);
-                StudentModel Data = _baseRepository.GetAllData<StudentModel>().Where(x => x.StudentId == student.StudentId).FirstOrDefault();
+                StudentModel Data = await _baseRepository.GetAllData<StudentModel>().Where(x => x.StudentId == student.StudentId).FirstOrDefaultAsync();
 
                 Data.FirstName = student.FirstName;
                 Data.MidName = student.MidName;
@@ -164,8 +164,8 @@ namespace StudentManagement.Business_Layer
                     PassedYear = y.PassedYear,
                     Marks = y.Marks,
                 }).ToList();
-                var result = _baseRepository.Update<StudentModel>(Data);
-                return 1;
+                var result = await _baseRepository.Update<StudentModel>(Data);
+                return result;
             }
 
             catch (Exception ex)
@@ -176,12 +176,12 @@ namespace StudentManagement.Business_Layer
         }
 
         //Delete a data...
-        public int PostDeleteData(StudentViewModel student)
+        public async Task<int> PostDeleteData(StudentViewModel student)
         {
             try
             {
-                StudentModel Data = _baseRepository.GetAllData<StudentModel>().Where(x => x.StudentId == student.StudentId).FirstOrDefault();
-                var result = _baseRepository.Delete<StudentModel>(Data);
+                StudentModel Data = await _baseRepository.GetAllData<StudentModel>().Where(x => x.StudentId == student.StudentId).FirstOrDefaultAsync();
+                var result = await _baseRepository.Delete<StudentModel>(Data);
                 return 1;
             }
 
@@ -208,12 +208,12 @@ namespace StudentManagement.Business_Layer
             return uniqueFileName;
         }
         //Featch course list by faculty 
-        public List<CourseViewModel> GetCourseListByFacultyId(int Id)
+        public async Task<List<CourseViewModel>> GetCourseListByFacultyId(int Id)
         {
-            var result = _baseRepository.GetAllData<Course>().Where(x => x.FacultyId == Id).Select(y=>new CourseViewModel { 
+            var result = await _baseRepository.GetAllData<Course>().Where(x => x.FacultyId == Id).Select(y=>new CourseViewModel { 
             Id = y.Id,
             Name = y.Name
-            }).ToList();
+            }).ToListAsync();
             return result;
         }
     }

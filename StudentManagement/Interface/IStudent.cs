@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace StudentManagement.Interface
 {
-   public interface IStudent
+    public interface IStudent
     {
-        StudentViewModel GetData(int Id);
-        List<StudentViewModel> GetIndexData();
-        StudentViewModel GetCreateData();
+        Task<StudentViewModel> GetData(int Id);
+        Task<List<StudentViewModel>> GetIndexData();
+        Task<StudentViewModel> GetCreateData();
         DashboardViewModel studentdata();
-        List<CourseViewModel> GetCourseListByFacultyId(int Id);
-        StudentModel PostCreateData(StudentViewModel student);
-        int PostEditData(StudentViewModel student);
-        int PostDeleteData(StudentViewModel student);
+        Task<List<CourseViewModel>> GetCourseListByFacultyId(int Id);
+        Task<StudentModel> PostCreateData(StudentViewModel student);
+        Task<StudentModel> PostEditData(StudentViewModel student);
+        Task<int> PostDeleteData(StudentViewModel student);
     }
 }

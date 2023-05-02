@@ -18,7 +18,7 @@ namespace StudentManagement.Business_Layer
         {
             _baseRepository = baseRepository;
         }
-        public int PostCreateData(FacultyViewModel faculty)
+        public async Task<FacultyModel> PostCreateData(FacultyViewModel faculty)
         {
             try
             {
@@ -26,9 +26,9 @@ namespace StudentManagement.Business_Layer
                 {
                     FacultyName = faculty.FacultyName
                 };
-                var result = _baseRepository.Create<FacultyModel>(model);
+                var result = await _baseRepository.Create<FacultyModel>(model);
 
-                return 1;
+                return model;
             }
 
             catch (Exception ex)
@@ -37,8 +37,5 @@ namespace StudentManagement.Business_Layer
                 throw;
             }
         }
-
-
-
     }
 }

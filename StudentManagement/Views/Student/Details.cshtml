@@ -9,7 +9,7 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="content-body">
+<div class="content-wrapper">
     <div class="container-fluid">
         <h1>Details</h1>
         <div>
@@ -74,7 +74,7 @@
 
             <form asp-action="Delete">
                 <input type="hidden" asp-for="StudentId" />
-                <a class="btn btn-danger" asp-action="Index">Back to List</a>
+                <a class="btn btn-danger" asp-action="Index" data-ajax="true" data-ajax-method="GET" aria-expanded="false" data-ajax-update="#sagar-div">Back to List</a>
             </form>
         </div>
     </div>

@@ -13,7 +13,7 @@ namespace StudentManagement.ViewModel
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Modul { get; set; }
+        public string FacultyName { get; set; }
         [Display(Name = "Faculty")]
         public int FacultyId { get; set; }
         [ForeignKey("FacultyId")]

@@ -4,50 +4,40 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - StudentManagement</title>
+
+    <link href="~/css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous" />
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
-
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
     @*Toster*@
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-    @*validation*@
-    <link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+    @*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />*@
+    @*vendor*@
+    <link href="~/vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet" />
+    <link href="~/vendor/chartist/css/chartist.min.css" rel="stylesheet" />
+    <link href="~/vendor/toastr/css/toastr.min.css" rel="stylesheet" />
+    <link href="~/vendor/animate/animate.min.css" rel="stylesheet" />
+    <link href="~/vendor/aos/css/aos.css" rel="stylesheet" />
+    <link href="~/vendor/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+    @*<link href="~/vendor/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />*@
 
+    @*Data table*@
+    <link href="~/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
 
-    <!-- Favicon icon -->
-    @*<link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">*@
-    <link href="~/vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
-    <link href="~/vendor/chartist/css/chartist.min.css" rel="stylesheet">
-    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/icons/avasta/css/style.css" rel="stylesheet" />
+    <link href="~/icons/font-awesome-old/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/icons/helveticaNeue/css/helveticaNeue.css" rel="stylesheet" />
+    <link href="~/icons/line-awesome/css/line-awesome.min.css" rel="stylesheet" />
+    <link href="~/icons/material-design-iconic-font/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="~/icons/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" />
+    <link href="~/icons/themify-icons/css/themify-icons.css" rel="stylesheet" />
+    <link href="~/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
-        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">StudentManagement</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Index">Student</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>*@
         <!--**********************************
             Nav header start
         ***********************************-->
@@ -81,7 +71,7 @@
                                 </span>
                                 <div class="dropdown-menu p-0 m-0">
                                     <form>
-                                        <input class="form-control" type="search" name="SearchString" placeholder="Search" value="@ViewData["studentdata"]" aria-label="Search">
+                                        <input class="form-control" type="search" name="SearchString" placeholder="Search" value="@ViewData["studentdata"]" aria-label="Search" data-ajax="true">
                                     </form>
                                 </div>
                             </div>
@@ -130,22 +120,25 @@
                     <li class="nav-label first">Main Menu</li>
                     <!-- <li><a href="index.html"><i class="icon icon-single-04"></i><span class="nav-text">Dashboard</span></a></li> -->
                     <li>
-                        <a class="has-arrow" asp-area="" asp-controller="Home" asp-action="Index" aria-expanded="false">
+                        <a class="has-arrow" href="/Home/Index">
                             <i class="bi bi-grid-3x3-gap-fill"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a class="has-arrow" asp-area="" asp-controller="Student" asp-action="Index" aria-expanded="false">
+                        <a class="has-arrow" href="/Student/Index" data-ajax="true"
+                           data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#main-div">
                             <i class="bi bi-mortarboard-fill"></i><span class="nav-text">Student</span>
                         </a>
                     </li>
                     <li>
-                        <a class="has-arrow" asp-area="" asp-controller="Faculty" asp-action="Create" aria-expanded="false">
+                        <a class="has-arrow" href="/Faculty/Create" data-ajax="true"
+                           data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#main-div">
                             <i class="bi bi-mortarboard-fill"></i><span class="nav-text">Faculty</span>
                         </a>
                     </li>
                     <li>
-                        <a class="has-arrow" asp-area="" asp-controller="Course" asp-action="Create" aria-expanded="false">
+                        <a class="has-arrow" href="/Course/Create" data-ajax="true"
+                           data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#main-div">
                             <i class="bi bi-mortarboard-fill"></i><span class="nav-text">Course</span>
                         </a>
                     </li>
@@ -162,51 +155,53 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
-
-
-
-
     </header>
-    <div class="container-fluid">
-        @*<partial name="_Notification" />*@
-        @RenderBody()
+    <div class="main-wrapper">
+        <div id="main-div" class="container-fluid">
+            @*<partial name="_Notification" />*@
+            @RenderBody()
+        </div>
     </div>
-
+    <hr /> <br /><br />
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - StudentManagement - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    @*validation*@
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-
-
-    <!--**********************************
-        Scripts
-    ***********************************-->
-    <!-- Required vendors -->
-    <script src="~/vendor/global/global.min.js"></script>
-    <script src="~/js/quixnav-init.js"></script>
-    <script src="~/js/custom.min.js"></script>
-
-    <script src="~/vendor/chartist/js/chartist.min.js"></script>
-
-    <script src="~/vendor/moment/moment.min.js"></script>
-    <script src="~/vendor/pg-calendar/js/pignose.calendar.min.js"></script>
-
-
-    <script src="~/js/dashboard/dashboard-2.js"></script>
-
     <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @*<script src="~/js/jquery-3.6.1.min.js" crossorigin="anonymous"></script>*@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>*@
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    @*Validation*@
+    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    @*<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>*@
+
+    @*vendor*@
+    @*<script src="~/vendor/global/global.min.js"></script>*@
+    @*<script src="~/js/quixnav-init.js"></script>*@
+    @*<script src="~/js/custom.min.js"></script>*@
+
+    @*<script src="~/vendor/moment/moment.min.js"></script>*@
+    @*<script src="~/vendor/pg-calendar/js/pignose.calendar.min.js"></script>*@
+    @*<script src="~/vendor/aos/js/aos.js"></script>*@
+    @*<script src="~/vendor/chartist/js/chartist.min.js"></script>*@
+    <script src="~/vendor/metismenu/js/metisMenu.min.js"></script>
+    @*<script src="~/vendor/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>*@
+
+     @*Data table*@
+    <script src="~/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    @*<script src="~/js/plugins-init/datatables.init.js"></script>*@
+
+    @*Toaster
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>*@
+    @*<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>*@
+    @*<script src="~/js/dashboard/dashboard-2.js"></script>*@
+
+    <script src="~/js/unobtrusive-ajax.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

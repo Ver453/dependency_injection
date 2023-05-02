@@ -16,12 +16,12 @@ namespace StudentManagement.Business_Layer.Repository
             this.context = context;
         }
 
-        public virtual T1 Create<T1>(T1 model) where T1 : class
+        public virtual async Task<T1> Create<T1>(T1 model) where T1 : class
         {
             try
             {
-                context.Set<T1>().Add(model);
-                context.SaveChanges();
+                await context.Set<T1>().AddAsync(model);
+                await context.SaveChangesAsync();
                 return model;
             }
             catch (Exception ex)
@@ -32,13 +32,29 @@ namespace StudentManagement.Business_Layer.Repository
 
         }
 
-        public virtual T1 Update<T1>(T1 model) where T1 : class
+        public virtual async Task<T1> Add<T1>(T1 model) where T1 : class
+        {
+            try
+            {
+                await context.Set<T1>().AddAsync(model);
+                await context.SaveChangesAsync();
+                return model;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+
+        }
+
+        public virtual async Task<T1> Update<T1>(T1 model) where T1 : class
         {
             try
             {
                 context.Set<T1>().Update(model);
                 //context.T1.Add(model);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
                 return model;
             }
             catch (Exception ex)
@@ -48,7 +64,7 @@ namespace StudentManagement.Business_Layer.Repository
             }
 
         }
-        public virtual async Task<T1> GetDataById<T1>(int Id) where T1 : class
+        public virtual T1 GetDataById<T1>(int Id) where T1 : class
         {
             return context.Set<T1>().Find(Id);
         }
@@ -57,7 +73,7 @@ namespace StudentManagement.Business_Layer.Repository
         {
             //var model = await GetDataById<T1>(model);
             context.Set<T1>().Remove(model);
-            context.SaveChanges();
+           await context.SaveChangesAsync();
             return model;
         }
 

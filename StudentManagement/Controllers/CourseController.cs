@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Data;
+using StudentManagement.Infrastructure;
 using StudentManagement.Interface;
 using StudentManagement.Models;
 using StudentManagement.ViewModel;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace StudentManagement.Controllers
 {
-    public class CourseController : Controller
+    public class CourseController : BaseController
     {
         private readonly ICourse _course;
 
@@ -23,19 +24,26 @@ namespace StudentManagement.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var getCreateData = _course.GetCreateData();
+            var getCreateData = await _course.GetCreateData();
             return View(getCreateData);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CourseViewModel viewmodel)
+        public async Task<Course> Create(CourseViewModel model)
         {
-            var postCreateCourse = _course.PostCreateData(viewmodel);
-            return RedirectToAction("Create");
-        }
+            var postCreateCourse = await _course.PostCreateData(model);
+            return postCreateCourse;
 
+            //return RedirectToAction("Create");
+        }
+        [HttpGet]
+        public async Task<List<CourseViewModel>> GetAllCourses()
+        {
+            var getData =await _course.GetAllCourses();
+            return getData;
+        }
     }
 
 }

@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Delete";
 }
-<div class="content-body">
+<div class="content-wrapper">
     <div class="container-fluid">
         <h1>Delete</h1>
 
@@ -68,11 +68,58 @@
                 </dd>
             </dl>
 
-            <form asp-action="Delete">
+
+            <div class="form-group">
+                @*<a class="btn btn-danger" asp-action="Index">Back to List</a>*@
+                <a id="btn-backToList" class="btn btn-danger" href="/Student/Index" data-ajax="true"
+                   data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#sagar-div" hidden>
+                    <span class="nav-text">Back To List</span>
+                </a>
+            </div>
+            <form asp-action="Delete" id="deleteStudentForm" method="POST" ajax-request="true" enctype="multipart/form-data" callback="callback(data)" data-action="Delete">
                 <input type="hidden" asp-for="StudentId" />
-                <input type="submit" value="Delete" class="btn btn-danger" /> |
-                <a asp-action="Index">Back to List</a>
+                <button id="Deletebtn" type="button" value="Delete" class="btn btn-danger">Delete</button> |
+                <a asp-action="Index" data-ajax="true" data-ajax-method="GET" aria-expanded="false" data-ajax-update="#sagar-div">Back to List</a>
             </form>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Deletebtn").click(function () {
+            PostFormWithFile();
+        })
+    });
+    function callback(data) {
+        debugger;
+        if (data.resultType == 0) {
+            $("#btn-backToList")[0].click();
+        }
+        else {
+            swal({
+                text: data.message,
+                closeOnClickOutside: false
+            });
+            /*alert(data.message);*/
+        }
+    }
+    function PostFormWithFile() {
+        debugger;
+        var registrationForm = document.getElementById("deleteStudentForm");
+        var formData = new FormData(registrationForm);
+
+        $.ajax({
+            url: '@Url.Action("Delete")',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                debugger;
+                callback(response);
+            }
+        });
+
+    }
+</script>

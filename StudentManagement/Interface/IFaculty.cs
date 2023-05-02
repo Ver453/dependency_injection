@@ -1,4 +1,5 @@
-﻿using StudentManagement.ViewModel;
+﻿using StudentManagement.Models;
+using StudentManagement.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace StudentManagement.Interface
 {
     public interface IFaculty
     {
-        int PostCreateData(FacultyViewModel faculty);
+        Task<FacultyModel> PostCreateData(FacultyViewModel faculty);
     }
 }

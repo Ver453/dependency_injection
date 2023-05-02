@@ -4,14 +4,14 @@
     ViewData["Title"] = "Create";
 }
 
-
-<div class="content-body">
+<div class="content-wrapper">
     <div class="container-fluid">
         <h4>Course</h4>
         <hr />
         <div class="row">
             <div class="col-md-4">
-                <form asp-action="Create">
+                <form asp-action="Create" id="editForm">
+                    <input asp-for="Id" class="form-control" hidden />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
@@ -28,18 +28,98 @@
                         <span asp-validation-for="FacultyId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <button id="btnSave" type="button" class="btn btn-primary">update</button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
+        @*<div>
+                <a class="btn btn-danger" asp-action="Index">Back to List</a>
+            </div>*@
+
+        <br />
+
+        <br />
+        <table id="tblCourse" class="table table-striped table-bordered course">
+            <thead>
+                <tr>
+                    <th>Course Id</th>
+                    <th>Name</th>
+                    <th>Faculty</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        debugger
+        LoadData();
+        $("#btnSave").click(function () {
+            //var faculty = {
+            //    "Name": $("#Name").val(),
+            //    "FacultyId": $("#FacultyId").val()
+            //};
+            var course = $("#editForm").serialize();
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+            $.ajax({
+                type: 'POST',
+                url: '/Course/Create',
+                data: course,
+                async: false,
+                success: function (result) {
+                    LoadData();
+                    $("form").trigger("reset");
+
+                },
+                error: function (result) {
+                    Error = "Data insert failed"
+                }
+            });
+        });
+
+
+        $('#tblCourse').DataTable({
+            scrollY: 200,
+            scrollCollapse: true,
+            scroller: true,
+            paging: true,
+            responsive: true,
+            filter: true
+        });
+    });
+    function LoadData() {
+        debugger;
+        $('#tblCourse tbody').empty();
+        $.ajax({
+            type: "GET",
+            url: "/Course/GetAllCourses",
+            async: false,
+            //dataType: "json",
+            //data: { id: '' },
+            success: function (data) {
+                var items = '';
+                $.each(data, function (i, item) {
+                    var rows = "<tr>"
+                        + "<td class='prtoducttd'>" + item.id + "</td>"
+                        + "<td class='prtoducttd'>" + item.name + "</td>"
+                        + "<td class='prtoducttd'>" + item.facultyName + "</td>"
+                        + "</tr>";
+                    $('#tblCourse tbody').append(rows);
+                });
+            },
+            error: function (ex) {
+                //var r = jQuery.parseJSON(response.responseText);
+                //alert("Message: " + r.Message);
+                //alert("StackTrace: " + r.StackTrace);
+                //alert("ExceptionType: " + r.ExceptionType);
+            }
+        });
+        return false;
+    }
+</script>
