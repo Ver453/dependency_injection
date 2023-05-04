@@ -5,11 +5,33 @@
     var counter = 0;
 
 }
+
+@*select2*@
+<link href="~/css/select2.min.css" rel="stylesheet" />
+@if (TempData["ResultError"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    @*<script src="~/AdminLTE-3.2.0/plugins/toastr/toastr.min.js"></script>*@
+    <script src="~/js/toaster.js"></script>
+    @*<h4 class="alert alert-success alert-dismissible">@TempData["ResultOk"]</h4>*@
+    <script type="text/javascript">
+        toastr.error('@TempData["ResultError"]');
+    </script>
+
+    @*<strong>Success!</strong> Indicates a successful or positive action.*@
+}
 <div class="content-wrapper">
     <div class="container-fluid">
         <div class="form-group">
             @*<a class="btn btn-danger" asp-action="Index">Back to List</a>*@
             <a id="btn-backToList" class="btn btn-danger" href="/Student/Index" data-ajax="true"
+               data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#sagar-div" hidden>
+                <span class="nav-text">Back To List</span>
+            </a>
+        </div>
+        <div class="form-group">
+            @*<a class="btn btn-danger" asp-action="Index">Back to List</a>*@
+            <a id="btn-samePage" class="btn btn-danger" href="/Student/Create" data-ajax="true"
                data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#sagar-div" hidden>
                 <span class="nav-text">Back To List</span>
             </a>
@@ -172,7 +194,8 @@
         </form>
     </div>
 </div>
-
+@*select2 js*@
+<script src="~/js/select2.min.js"></script>
 <script type="text/javascript">
     // Add the following code if you want the name of the file appear on select
     $(".custom-file-input").on("change", function () {
@@ -289,11 +312,11 @@
             rowIdx--;
         });
 
-        ////select 2 js
-        //$('.js-example-basic-single').select2();
-
         $("#createbtn").click(function () {
             PostFormWithFile();
+        });
+        //select 2
+        $('.js-example-basic-single').select2({
         })
     });
 
@@ -301,6 +324,13 @@
         debugger;
         if (data.resultType == 0) {
             $("#btn-backToList")[0].click();
+        }
+        if (data.resultType == 1) {
+            $("#btn-samePage")[0].click();
+            swal({
+                text: data.message,
+                closeOnClickOutside: false
+            });
         }
         else {
             swal({

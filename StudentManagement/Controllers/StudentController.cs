@@ -61,7 +61,7 @@ namespace StudentManagement.Controllers
 
                         student.FacultyList = getCreateData.FacultyList;
                         student.CourseList = getCreateData.CourseList;
-                        TempData["ResultOk"] = "Recored is sucessfully Added!";
+                        TempData["ResultError"] = "Error occured!";
                         ModelState.AddModelError("AcademicList_0__Qualification", "This field is required");
                         return Json( new DataResult { ResultType = ResultType.Failed, Message="Failed"});
                         //return View(student);
@@ -141,7 +141,7 @@ namespace StudentManagement.Controllers
         public async Task<IActionResult> Delete(StudentViewModel student)
         {
             var postDeleteData = await _student.PostDeleteData(student);
-            TempData["ResultOk"] = "Recored is sucessfully Deleated!";
+            TempData["ResultOk"] = "Recored Deleated!";
             return Json(new DataResult { ResultType = ResultType.Success, Message = "Success" });
         }
 

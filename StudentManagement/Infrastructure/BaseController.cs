@@ -33,7 +33,7 @@ namespace StudentManagement.Infrastructure
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             //base.OnActionExecuting(context);
-            ViewBag.Layout = IsAjaxRequest(context) ? "" : "~/Views/Shared/_Layout - Copy.cshtml";
+            ViewBag.Layout = IsAjaxRequest(context) ? "" : "~/Views/Shared/_Layout.cshtml";
             await next();
         }
     }
