@@ -9,6 +9,7 @@ using StudentManagement.Business_Layer;
 using StudentManagement.Business_Layer.Repository;
 using StudentManagement.Data;
 using StudentManagement.Interface;
+using StudentManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,8 +34,12 @@ namespace StudentManagement
             services.AddTransient<IStudent, StudentBL>();
             services.AddTransient<IFaculty, FacultyBL>();
             services.AddTransient<ICourse, CourseBL>();
+            services.AddTransient<IAccount, AccountBL>();
             services.AddTransient<IBaseRepository, BaseRepository>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            var Mail = Configuration.GetSection("MailSettings");
+            services.Configure<MailSettings>(Mail);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +66,7 @@ namespace StudentManagement
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Register}/{id?}");
             });
         }
     }

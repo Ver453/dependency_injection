@@ -20,6 +20,7 @@
 
     @*<strong>Success!</strong> Indicates a successful or positive action.*@
 }
+
 <div class="content-wrapper">
     <div class="container-fluid">
         <div class="form-group">
@@ -375,7 +376,10 @@
         });
 
         if (isLastRowBlank) {
-            alert('Please fill out the previous row before adding a new one.');
+            swal({
+                text: "Please fill out the previous row before adding a new one",
+                closeOnClickOutside: false
+            });
             return;
         }
         // Adding a row inside the tbody.

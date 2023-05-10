@@ -20,7 +20,6 @@ namespace StudentManagement.Business_Layer
         {
             _baseRepository = baseRepository;
         }
-
         public async Task<CourseViewModel> GetCreateData()
         {
             CourseViewModel courseModel = new CourseViewModel();

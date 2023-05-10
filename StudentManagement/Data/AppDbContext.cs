@@ -19,6 +19,7 @@ namespace StudentManagement.Data
         public DbSet<FacultyModel> Faculties { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<StudentAcademic> Academics { get; set; }
+        public DbSet<UserRegistration> Registers { get; set; }
         //public DbSet<StudentManagement.ViewModel.StudentViewModel> StudentViewModel { get; set; }
 
     }

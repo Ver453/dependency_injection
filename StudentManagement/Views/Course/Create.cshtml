@@ -34,11 +34,9 @@
             </div>
         </div>
 
-        @*<div>
-                <a class="btn btn-danger" asp-action="Index">Back to List</a>
-            </div>*@
 
-        <br /><br />
+        @*Start PQgrid table*@
+        <br />
         <div id="grid_paging">
             <table id="tblCourse" class="table table-striped table-bordered course">
                 <thead>
@@ -54,17 +52,36 @@
                 </tbody>
             </table>
         </div>
+        @*End Pqgrid*@
+        <br /><hr />
+        @*Start Datatable*@
+        <div>
+            <table id="dataTblCourse" class="table table-striped table-bordered course">
+                <thead>
+                    <tr>
+                        <th>Course Id</th>
+                        <th>Name</th>
+                        <th>Faculty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        @*End Datatable*@
     </div>
 </div>
 <script>
 
 
-    function abcd () {
+    function pqgridLoadData () {
         debugger
         var colM = [
-            { title: "Course Id", width: 100, dataIndx: "id" },
-            { title: "Course Name", width: 130, dataIndx: "name" },
-            { title: "Faculty", width: 190, dataIndx: "facultyName" }
+            { title: "Course Id", width: "20%", dataIndx: "id" },
+            { title: "Course Name", width: "40%", dataIndx: "name" },
+            { title: "Faculty", width: "40%", dataIndx: "facultyName" }
         ];
         var dataModel = {
             location: "remote",
@@ -79,12 +96,13 @@
         };
 
         var grid1 = $("#grid_paging").pqGrid({
-            width: 1000, height: 400,
+            width: "100%", height: "30%",
             dataModel: dataModel,
             colModel: colM,
             /*freezeCols: 2,*/
-            //pageModel: { type: "remote", rPP: 20, strRpp: "{0}" },
-            //sortable: false,
+            pageModel: { type: "remote", rPP: 20, strRpp: "{0}" },
+            sortable: true,
+            scrollModel: { autoFit: true },
             //selectionModel: { swipe: false },
             //wrap: false, hwrap: false,
             //virtualX: true, virtualY: true,
@@ -96,7 +114,9 @@
    
     $(document).ready(function () {
         debugger
-        abcd()
+        LoadData() //this is a function for the datatable of course data
+        pqgridLoadData() //this is a function for the pqgrid of course data
+
         $("#btnSave").click(function () {
             //var faculty = {
             //    "Name": $("#Name").val(),
@@ -111,11 +131,16 @@
                 async: false,
                 success: function (result) {
                     debugger
+                    LoadData()
+
+                    //start data post for pqgrid
                     var grid = $("#grid_paging").pqGrid("instance");
                     if (grid != undefined) {
                         $("#grid_paging").pqGrid('destroy');
                     }
-                    abcd();
+                    pqgridLoadData();
+                    //End pqgrid
+
                     $("form").trigger("reset");
 
                 },
@@ -124,43 +149,47 @@
                 }
             });
         });
-        //var table2 = $('#tblCourse').DataTable({
-        //    scrollY: 200,
-        //    scrollCollapse: true,
-        //    scroller: true,
-        //    paging: true,
-        //    responsive: true,
-        //    filter: true
-        //})
+        //Datable start
+        $('#dataTblCourse').DataTable({
+            scrollY: 200,
+            scrollCollapse: true,
+            scroller: true,
+            paging: true,
+            responsive: true,
+            filter: true
+        })
+        //End datatable
         //array of columns.
     });
-    //function LoadData() {
-    //    debugger;
-    //    $('#grid_paging #tblCourse tbody').empty();
-    //    $.ajax({
-    //        type: "GET",
-    //        url: "/Course/GetAllCourses",
-    //        async: false,
-    //        //dataType: "json",
-    //        //data: { id: '' },
-    //        success: function (data) {
-    //            var items = '';
-    //            $.each(data, function (i, item) {
-    //                var rows = "<tr>"
-    //                    + "<td class='prtoducttd'>" + item.id + "</td>"
-    //                    + "<td class='prtoducttd'>" + item.name + "</td>"
-    //                    + "<td class='prtoducttd'>" + item.facultyName + "</td>"
-    //                    + "</tr>";
-    //                $('#grid_paging #tblCourse tbody').append(rows);
-    //            });
-    //        },
-    //        error: function (ex) {
-    //            //var r = jQuery.parseJSON(response.responseText);
-    //            //alert("Message: " + r.Message);
-    //            //alert("StackTrace: " + r.StackTrace);
-    //            //alert("ExceptionType: " + r.ExceptionType);
-    //        }
-    //    });
-    //    return false;
-    //}
+
+
+    function LoadData() {
+        debugger;
+        $('#dataTblCourse tbody').empty();
+        $.ajax({
+            type: "GET",
+            url: "/Course/GetAllCourses",
+            async: false,
+            //dataType: "json",
+            //data: { id: '' },
+            success: function (data) {
+                var items = '';
+                $.each(data, function (i, item) {
+                    var rows = "<tr>"
+                        + "<td class='prtoducttd'>" + item.id + "</td>"
+                        + "<td class='prtoducttd'>" + item.name + "</td>"
+                        + "<td class='prtoducttd'>" + item.facultyName + "</td>"
+                        + "</tr>";
+                    $('#dataTblCourse tbody').append(rows);
+                });
+            },
+            error: function (ex) {
+                //var r = jQuery.parseJSON(response.responseText);
+                //alert("Message: " + r.Message);
+                //alert("StackTrace: " + r.StackTrace);
+                //alert("ExceptionType: " + r.ExceptionType);
+            }
+        });
+        return false;
+    }
 </script>
