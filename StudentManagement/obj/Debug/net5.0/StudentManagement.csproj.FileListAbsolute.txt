@@ -865,3 +865,5 @@ E:\.net project\StudentManagement\StudentManagement\bin\Debug\net5.0\SendGrid.Sm
 E:\.net project\StudentManagement\StudentManagement\obj\Debug\net5.0\Razor\Views\Account\Register.cshtml.g.cs
 E:\.net project\StudentManagement\StudentManagement\obj\Debug\net5.0\Razor\Views\Shared\_AccountLayout.cshtml.g.cs
 E:\.net project\StudentManagement\StudentManagement\obj\Debug\net5.0\StudentManagement.csproj.AssemblyReference.cache
+E:\.net project\StudentManagement\StudentManagement\obj\Debug\net5.0\Razor\Views\Account\UserVerify.cshtml.g.cs
+E:\.net project\StudentManagement\StudentManagement\obj\Debug\net5.0\Razor\Views\Account\UserLogin.cshtml.g.cs

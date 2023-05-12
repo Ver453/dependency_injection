@@ -12,6 +12,9 @@ namespace StudentManagement.Interface
     {
         Task<UserRegistration> UserRegister(UserRegistrationViewModel usrRegister);
         bool IsEmailExists(string eMail);
+        //void SendEmailToUser(string Email, string activationCode);
+        void SendEmailToUser(UserRegistration userData);
+        bool UserVerification(string activate);
         //Task<IActionResult> IsEmailExists(string email);
     }
 }

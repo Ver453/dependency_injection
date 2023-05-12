@@ -31,6 +31,7 @@ namespace StudentManagement
         {
             var conn = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn));
+            services.AddHttpContextAccessor();
             services.AddTransient<IStudent, StudentBL>();
             services.AddTransient<IFaculty, FacultyBL>();
             services.AddTransient<ICourse, CourseBL>();

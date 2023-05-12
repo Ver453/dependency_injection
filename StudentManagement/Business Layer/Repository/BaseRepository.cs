@@ -81,5 +81,10 @@ namespace StudentManagement.Business_Layer.Repository
         {
             return context.Set<T1>();
         }
+
+        //public void SaveChanges()
+        //{
+        //    context.SaveChanges();
+        //}
     }
 }

@@ -14,5 +14,7 @@ namespace StudentManagement.Business_Layer.Repository
         Task<T1> Delete<T1>(T1 model) where T1 : class;
 
         Task<T1> Add<T1>(T1 model) where T1 : class;
+
+        //void SaveChanges();
     }
 }
